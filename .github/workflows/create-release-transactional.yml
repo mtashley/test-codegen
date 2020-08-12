@@ -236,4 +236,6 @@ jobs:
   complete-success:
     runs-on: ubuntu-latest
     needs: [generate-node, generate-php, generate-ruby, generate-python]
-    run: echo "Successful Transactional Build!"
+    steps:
+      - name: 'The first step'
+        run: echo "Successful Transactional Build!"
