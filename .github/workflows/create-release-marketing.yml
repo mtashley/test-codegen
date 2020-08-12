@@ -232,3 +232,8 @@ jobs:
         with:
           name: mailchimp-marketing-python.zip
           path: swagger-out/marketing-python/mailchimp-marketing-python.zip
+
+  complete-success:
+    runs-on: ubuntu-latest
+    needs: [generate-node, generate-php, generate-ruby, generate-python]
+    run: echo "Successful Marketing Build!"

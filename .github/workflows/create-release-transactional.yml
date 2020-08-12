@@ -232,3 +232,8 @@ jobs:
         with:
           name: mailchimp-transactional-python.zip
           path: swagger-out/transactional-python/mailchimp-transactional-python.zip
+
+  complete-success:
+    runs-on: ubuntu-latest
+    needs: [generate-node, generate-php, generate-ruby, generate-python]
+    run: echo "Successful Transactional Build!"
