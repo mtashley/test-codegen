@@ -1,0 +1,105 @@
+# Mailchimp Marketing — Ruby
+
+The official Ruby client library for the Mailchimp Marketing API (v1)
+
+## Installation
+
+### via RubyGems
+
+```shell
+gem install MailchimpMarketing
+```
+
+### via Git
+
+```shell
+gem '{{{gemName}}}', :git => 'https://github.com/{{#gitUserId}}{{.}}{{/gitUserId}}{{^gitUserId}}YOUR_GIT_USERNAME{{/gitUserId}}/{{#gitRepoId}}{{.}}{{/gitRepoId}}{{^gitRepoId}}YOUR_GIT_REPO{{/gitRepoId}}.git'
+```
+
+### via Local Installation
+
+```shell
+gem build {{{gemName}}}.gemspec
+gem install ./{{{gemName}}}-{{{gemVersion}}}.gem
+gem '{{{gemName}}}', '~> {{{gemVersion}}}'
+```
+
+## Quick Start
+
+```ruby
+require 'MailchimpMarketing'
+
+begin
+  client = MailchimpMarketing::Client.new()
+  client.set_config({
+    :api_key => 'YOUR_API_KEY',
+    :server => 'YOUR_SERVER_PREFIX'
+  })
+  result = client.ping.get()
+  p result
+rescue MailchimpMarketing::ApiError => e
+  puts "Error: #{e}"
+end
+```
+
+## Authentication Methods
+
+The client library can be configured to use either **Basic Auth** or **OAuth2**. A server prefix should be provided i.e. `us19`, in order for the client to determine to appropriate host url.
+
+### Basic Auth
+
+```ruby
+client.set_config({
+  :api_key => 'YOUR_API_KEY',
+  :server => 'YOUR_SERVER_PREFIX'
+})
+```
+
+### OAuth2
+
+```ruby
+client.set_config({
+  :access_token => 'YOUR_ACCESS_TOKEN',
+  :server => 'YOUR_SERVER_PREFIX'
+})
+```
+
+### Shorthand
+
+As a shortcut, the configuration object can be passed in directly when creating the client.
+
+```ruby
+client = MailchimpMarketing::Client.new({
+  :api_key => 'YOUR_API_KEY',
+  :server => 'YOUR_SERVER_PREFIX'
+})
+```
+
+## API Endpoints
+
+All URIs are relative to *{{basePath}}*
+
+| Method | Endpoint |
+| ---------- | -------- |
+{{#apiInfo}}{{#apis}}{{#operations}}{{#operation}}| **{{#tags}}{{{name}}}{{/tags}}.{{vendorExtensions.x-custom-config.methodNameSnake}}** | {{path}} |
+{{/operation}}{{/operations}}{{/apis}}{{/apiInfo}}
+
+## Additional Client Libraries
+
+Mailchimp Marketing libraries are available in the following languages:
+
+<div>
+  <a href="https://github.com/mailchimp/mailchimp-marketing-node">
+  <img src="https://github.com/mailchimp/mailchimp-client-lib-codegen/blob/master/resources/images/lang_node.png?raw=true" width="44" height="44">
+  </a>
+  <a href="https://github.com/mailchimp/mailchimp-marketing-php">
+  <img src="https://github.com/mailchimp/mailchimp-client-lib-codegen/blob/master/resources/images/lang_php.png?raw=true" width="44" height="44">
+  </a>
+  <a href="https://github.com/mailchimp/mailchimp-marketing-ruby">
+  <img src="https://github.com/mailchimp/mailchimp-client-lib-codegen/blob/master/resources/images/lang_ruby.png?raw=true" width="44" height="44">
+  </a>
+  <a href="https://github.com/mailchimp/mailchimp-marketing-python">
+  <img src="https://github.com/mailchimp/mailchimp-client-lib-codegen/blob/master/resources/images/lang_python.png?raw=true" width="44" height="44">
+  </a>
+</div>
+

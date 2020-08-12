@@ -1,0 +1,92 @@
+=begin
+{{> api_info}}
+=end
+
+require 'uri'
+
+module {{moduleName}}
+{{#operations}}
+  class {{classname}}
+    attr_accessor :api_client
+
+    def initialize(api_client)
+      @api_client = api_client
+    end
+{{#operation}}
+
+    {{#summary}}
+    # {{summary}}
+    {{/summary}}
+    def {{vendorExtensions.x-custom-config.methodNameSnake}}({{#allParams}}{{#required}}{{paramName}}, {{/required}}{{/allParams}}opts = {})
+      {{#allParams}}
+      {{#required}}
+      fail ArgumentError, "Missing required param: '{{paramName}}'" if {{{paramName}}}.nil?
+      {{#isEnum}}
+      {{^isContainer}}
+      fail ArgumentError, "invalid value for '{{{paramName}}}', must be one of {{#allowableValues}}{{#values}}{{{this}}}{{^-last}}, {{/-last}}{{/values}}{{/allowableValues}}" if ![{{#allowableValues}}{{#values}}'{{{this}}}'{{^-last}}, {{/-last}}{{/values}}{{/allowableValues}}].include?({{{paramName}}})
+      {{/isContainer}}
+      {{/isEnum}}
+      {{/required}}
+      {{^required}}
+      {{#isEnum}}
+      {{#collectionFormat}}
+      fail ArgumentError, 'invalid value for "{{{paramName}}}", must include one of {{#allowableValues}}{{#values}}{{{this}}}{{^-last}}, {{/-last}}{{/values}}{{/allowableValues}}' if opts[:'{{{paramName}}}'] && !opts[:'{{{paramName}}}'].all? { |item| [{{#allowableValues}}{{#values}}'{{{this}}}'{{^-last}}, {{/-last}}{{/values}}{{/allowableValues}}].include?(item) }
+      {{/collectionFormat}}
+      {{^collectionFormat}}
+      fail ArgumentError, 'invalid value for "{{{paramName}}}", must be one of {{#allowableValues}}{{#values}}{{{this}}}{{^-last}}, {{/-last}}{{/values}}{{/allowableValues}}' if opts[:'{{{paramName}}}'] && ![{{#allowableValues}}{{#values}}'{{{this}}}'{{^-last}}, {{/-last}}{{/values}}{{/allowableValues}}].include?(opts[:'{{{paramName}}}'])
+      {{/collectionFormat}}
+      {{/isEnum}}
+      {{/required}}
+      {{#hasValidation}}
+      {{#maxLength}}
+      fail ArgumentError, 'invalid value for "{{#required}}{{{paramName}}}{{/required}}{{^required}}opts[:"{{{paramName}}}"]{{/required}}", the character length must be smaller than or equal to {{{maxLength}}}.' if {{^required}}!opts[:'{{{paramName}}}'].nil? && {{/required}}{{#required}}{{{paramName}}}{{/required}}{{^required}}opts[:'{{{paramName}}}']{{/required}}.to_s.length > {{{maxLength}}}
+      {{/maxLength}}
+      {{#minLength}}
+      fail ArgumentError, 'invalid value for "{{#required}}{{{paramName}}}{{/required}}{{^required}}opts[:"{{{paramName}}}"]{{/required}}", the character length must be great than or equal to {{{minLength}}}.' if{{^required}}!opts[:'{{{paramName}}}'].nil? && {{/required}}{{#required}}{{{paramName}}}{{/required}}{{^required}}opts[:'{{{paramName}}}']{{/required}}.to_s.length < {{{minLength}}}
+      {{/minLength}}
+      {{#maximum}}
+      fail ArgumentError, 'invalid value for "{{#required}}{{{paramName}}}{{/required}}{{^required}}opts[:"{{{paramName}}}"]{{/required}}", must be smaller than {{^exclusiveMaximum}}or equal to {{/exclusiveMaximum}}{{{maximum}}}.' if {{^required}}!opts[:'{{{paramName}}}'].nil? && {{/required}}{{#required}}{{{paramName}}}{{/required}}{{^required}}opts[:'{{{paramName}}}']{{/required}} >{{#exclusiveMaximum}}={{/exclusiveMaximum}} {{{maximum}}}
+      {{/maximum}}
+      {{#minimum}}
+      fail ArgumentError, 'invalid value for "{{#required}}{{{paramName}}}{{/required}}{{^required}}opts[:"{{{paramName}}}"]{{/required}}", must be greater than {{^exclusiveMinimum}}or equal to {{/exclusiveMinimum}}{{{minimum}}}.' if {{^required}}!opts[:'{{{paramName}}}'].nil? && {{/required}}{{#required}}{{{paramName}}}{{/required}}{{^required}}opts[:'{{{paramName}}}']{{/required}} <{{#exclusiveMinimum}}={{/exclusiveMinimum}} {{{minimum}}}
+      {{/minimum}}
+      {{#pattern}}
+      fail ArgumentError, "invalid value for '{{#required}}{{{paramName}}}{{/required}}{{^required}}opts[:\"{{{paramName}}}\"]{{/required}}', must conform to the pattern {{{pattern}}}." if {{^required}}!opts[:'{{{paramName}}}'].nil? && {{/required}}{{#required}}{{{paramName}}}{{/required}}{{^required}}opts[:'{{{paramName}}}']{{/required}} !~ Regexp.new({{{pattern}}})
+      {{/pattern}}
+      {{#maxItems}}
+      fail ArgumentError, 'invalid value for "{{#required}}{{{paramName}}}{{/required}}{{^required}}opts[:"{{{paramName}}}"]{{/required}}", must be less than or equal to {{{maxItems}}}.' if {{^required}}!opts[:'{{{paramName}}}'].nil? && {{/required}}{{#required}}{{{paramName}}}{{/required}}{{^required}}opts[:'{{{paramName}}}']{{/required}}.length > {{{maxItems}}}
+      {{/maxItems}}
+      {{#minItems}}
+      fail ArgumentError, 'invalid value for "{{#required}}{{{paramName}}}{{/required}}{{^required}}opts[:"{{{paramName}}}"]{{/required}}", must be greater than or equal to {{{minItems}}}.' if {{^required}}!opts[:'{{{paramName}}}'].nil? && {{/required}}{{#required}}{{{paramName}}}{{/required}}{{^required}}opts[:'{{{paramName}}}']{{/required}}.length < {{{minItems}}}
+      {{/minItems}}
+      {{/hasValidation}}
+      {{/allParams}}
+
+      query_params = {}
+      {{#queryParams}}
+      {{#required}}
+      query_params[:'{{{baseName}}}'] = {{#collectionFormat}}@api_client.build_collection_param({{{paramName}}}, :{{{collectionFormat}}}){{/collectionFormat}}{{^collectionFormat}}{{{paramName}}}{{/collectionFormat}}
+      {{/required}}
+      {{/queryParams}}
+      {{#queryParams}}
+      {{^required}}
+      query_params[:'{{{baseName}}}'] = {{#collectionFormat}}@api_client.build_collection_param(opts[:'{{{paramName}}}'], :{{{collectionFormat}}}){{/collectionFormat}}{{^collectionFormat}}opts[:'{{{paramName}}}']{{/collectionFormat}} if !opts[:'{{{paramName}}}'].nil?
+      {{/required}}
+      {{/queryParams}}
+      {{^bodyParam}}
+      post_body = nil
+      {{/bodyParam}}
+      {{#bodyParam}}
+      post_body = @api_client.object_to_http_body({{#required}}{{{paramName}}}{{/required}}{{^required}}opts[:'{{{paramName}}}']{{/required}})
+      {{/bodyParam}}
+
+      local_var_path = '{{{path}}}'{{#pathParams}}.sub('{' + '{{baseName}}' + '}', {{paramName}}.to_s){{/pathParams}}
+      data = @api_client.call_api(:{{httpMethod}}, local_var_path,
+        :query_params => query_params,
+        :body => post_body)
+      return data
+    end
+{{/operation}}
+  end
+{{/operations}}
+end

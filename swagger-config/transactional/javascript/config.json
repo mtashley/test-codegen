@@ -1,0 +1,8 @@
+{
+  "projectName": "@mailchimp/mailchimp_transactional",
+  "projectDescription": "Mailchimp Transactional Javascript Client Library",
+  "projectLicenseName": "Apache-2.0",
+  "moduleName": "MailchimpTransactional",
+  "usePromises": true,
+  "licenseName": "Apache 2.0"
+}

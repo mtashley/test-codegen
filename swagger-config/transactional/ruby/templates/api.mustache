@@ -1,0 +1,34 @@
+=begin
+{{> api_info}}
+=end
+
+require 'uri'
+
+module {{moduleName}}
+{{#operations}}
+  class {{classname}}
+    attr_accessor :api_client
+
+    def initialize(api_client = ApiClient.default)
+      @api_client = api_client
+    end
+{{#operation}}
+
+    {{#summary}}
+    # {{summary}}
+    {{/summary}}
+    {{#notes}}
+    # {{notes}}
+    {{/notes}}
+{{#allParams}}{{#required}}    # @param {{paramName}} {{description}}
+{{/required}}{{/allParams}}    # @param [Hash] opts the optional parameters
+{{#allParams}}{{^required}}    # @option opts [{{{dataType}}}] :{{paramName}} {{description}}
+{{/required}}{{/allParams}}    # @return [Array<({{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}nil{{/returnType}}, Fixnum, Hash)>] {{#returnType}}{{{returnType}}} data{{/returnType}}{{^returnType}}nil{{/returnType}}, response status code and response headers
+    def {{vendorExtensions.x-custom-config.methodNameSnake}}(body = {})
+      data = @api_client.call_api(:{{httpMethod}}, '{{{path}}}'{{#pathParams}}.sub('{' + '{{baseName}}' + '}', {{paramName}}.to_s){{/pathParams}}, body)
+      data
+    end
+{{/operation}}
+  end
+{{/operations}}
+end

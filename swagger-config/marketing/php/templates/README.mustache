@@ -1,0 +1,107 @@
+# Mailchimp Marketing — PHP
+
+The official PHP client library for the Mailchimp Marketing API
+
+## Installation
+
+**Option 1:** Install via Packagist
+```
+composer require mailchimp/marketing
+```
+
+Or add the following to `composer.json`
+```
+{
+  "require": {
+    "{{#composerVendorName}}{{.}}{{/composerVendorName}}{{^composerVendorName}}{{gitUserId}}{{/composerVendorName}}/{{#composerProjectName}}{{.}}{{/composerProjectName}}{{^composerProjectName}}{{gitRepoId}}{{/composerProjectName}}": "*"
+  }
+}
+```
+
+Install all composer dependencies using:
+```
+composer install
+```
+
+**Option 2:** Install Manually
+
+Clone the repo
+```
+git clone git@github.com:mailchimp/mailchimp-marketing-php.git
+```
+
+In the client library project root, install all dependencies
+```
+composer install
+```
+
+Manually include `vendor/autoload.php` in your implementation
+```php
+require_once('/path/to/{{packagePath}}/vendor/autoload.php');
+```
+
+## Quick Start
+
+```php
+require_once('/path/to/{{packagePath}}/vendor/autoload.php');
+
+$mailchimp = new {{invokerPackage}}\ApiClient();
+
+$mailchimp->setConfig([
+  'apiKey' => 'YOUR_API_KEY',
+  'server' => 'YOUR_SERVER_PREFIX'
+]);
+
+$response = $mailchimp->ping->get();
+print_r($response);
+```
+
+## Authentication Methods
+
+The client library can be configured to use either **Basic Auth** or **OAuth2**.
+
+For either method, a server prefix should be passed in i.e. `us19`, in order for the client to determine to appropriate host url.
+
+### Basic Auth
+```php
+$mailchimp->setConfig([
+  'apiKey' => 'YOUR_API_KEY',
+  'server' => 'YOUR_SERVER_PREFIX'
+]);
+```
+
+### OAuth2
+```php
+$mailchimp->setConfig([
+  'accessToken' => 'YOUR_ACCESS_TOKEN',
+  'server' => 'YOUR_SERVER_PREFIX'
+]);
+```
+
+## API Endpoints
+
+All URIs are relative to *{{basePath}}*
+
+| Method | Endpoint |
+| ---------- | -------- |
+{{#apiInfo}}{{#apis}}{{#operations}}{{#operation}}| **{{#tags}}{{{name}}}{{/tags}}.{{vendorExtensions.x-custom-config.methodNameCamel}}** | {{path}} |
+{{/operation}}{{/operations}}{{/apis}}{{/apiInfo}}
+
+## Additional Client Libraries
+
+Mailchimp Marketing libraries are available in the following languages:
+
+<div>
+  <a href="https://github.com/mailchimp/mailchimp-marketing-node">
+  <img src="https://github.com/mailchimp/mailchimp-client-lib-codegen/blob/master/resources/images/lang_node.png?raw=true" width="44" height="44">
+  </a>
+  <a href="https://github.com/mailchimp/mailchimp-marketing-php">
+  <img src="https://github.com/mailchimp/mailchimp-client-lib-codegen/blob/master/resources/images/lang_php.png?raw=true" width="44" height="44">
+  </a>
+  <a href="https://github.com/mailchimp/mailchimp-marketing-ruby">
+  <img src="https://github.com/mailchimp/mailchimp-client-lib-codegen/blob/master/resources/images/lang_ruby.png?raw=true" width="44" height="44">
+  </a>
+  <a href="https://github.com/mailchimp/mailchimp-marketing-python">
+  <img src="https://github.com/mailchimp/mailchimp-client-lib-codegen/blob/master/resources/images/lang_python.png?raw=true" width="44" height="44">
+  </a>
+</div>

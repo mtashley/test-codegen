@@ -1,0 +1,74 @@
+# Mailchimp Transactional — Node.js
+
+The official Node.js client library for the Mailchimp Transactional API (v1)
+
+## Installation
+
+```
+npm install {{{projectName}}}
+```
+
+## Quick Start
+
+```javascript
+const mailchimp = require('@mailchimp/mailchimp_transactional')('YOUR_API_KEY');
+
+async function callPing() {
+  const response = await mailchimp.users.ping();
+  console.log(response);
+}
+
+callPing();
+```
+
+## Sending Requests
+All requests are sent via POST and accept a single argument as the request body parameter.
+```javascript
+mailchimp.templates.publish({ name: 'My Template' });
+```
+
+## Output Formats
+Optionally, you can set the default response format for **all requests** to one of the following:
+- `json` *(default)*
+- `xml`
+- `php`
+- `yaml`
+
+```javascript
+mailchimp.setDefaultOutputFormat('xml');
+```
+
+You can also set the response format for a **single request** by passing in a special `outputFormat` param to the request body.
+```javascript
+mailchimp.senders.list({ outputFormat: 'php' });
+```
+
+## API Endpoints
+
+All URIs are relative to *{{basePath}}*
+
+| Method | Endpoint |
+| ---------- | -------- |
+{{#apiInfo}}{{#apis}}{{#operations}}{{#operation}}| **{{#tags}}{{{name}}}{{/tags}}.{{vendorExtensions.x-custom-config.methodNameCamel}}** | {{path}} |
+{{/operation}}{{/operations}}{{/apis}}{{/apiInfo}}
+
+
+## Additional Client Libraries
+
+Mailchimp Transactional libraries are available in the following languages:
+
+<div>
+  <a href="https://github.com/mailchimp/mailchimp-transactional-node">
+  <img src="https://github.com/mailchimp/mailchimp-client-lib-codegen/blob/master/resources/images/lang_node.png?raw=true" width="44" height="44">
+  </a>
+  <a href="https://github.com/mailchimp/mailchimp-transactional-php">
+  <img src="https://github.com/mailchimp/mailchimp-client-lib-codegen/blob/master/resources/images/lang_php.png?raw=true" width="44" height="44">
+  </a>
+  <a href="https://github.com/mailchimp/mailchimp-transactional-ruby">
+  <img src="https://github.com/mailchimp/mailchimp-client-lib-codegen/blob/master/resources/images/lang_ruby.png?raw=true" width="44" height="44">
+  </a>
+  <a href="https://github.com/mailchimp/mailchimp-transactional-python">
+  <img src="https://github.com/mailchimp/mailchimp-client-lib-codegen/blob/master/resources/images/lang_python.png?raw=true" width="44" height="44">
+  </a>
+</div>
+
