@@ -205,9 +205,9 @@ jobs:
           unzip zip/mailchimp-marketing-php.zip -d swagger-out/marketing-php
 
       - uses: php-actions/composer@v2
-          with:
-            command: install
-          path: swagger-out/marketing-php/MailchimpMarketing
+        with:
+          command: install
+        path: swagger-out/marketing-php/MailchimpMarketing
 
       - uses: php-actions/phpunit@v9
       - name: Run test suite
