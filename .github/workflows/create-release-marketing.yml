@@ -303,7 +303,7 @@ jobs:
         run: gem build MailchimpMarketing.gemspec
 
       - name: Run test suite
-          working-directory: tests/marketing-ruby
+        working-directory: tests/marketing-ruby
         run: |
           MARKETING_API_KEY=${{ secrets.MARKETING_API_KEY }} \
           MARKETING_SERVER=${{ secrets.MARKETING_SERVER }} \
