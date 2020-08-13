@@ -207,8 +207,7 @@ jobs:
       - uses: php-actions/composer@v2
       - name: Install marketing-php
         working-directory: swagger-out/marketing-php/MailchimpMarketing
-        with:
-          command: install
+        run: composer install
 
       - uses: php-actions/phpunit@v9
       - name: Run test suite
