@@ -147,6 +147,48 @@ jobs:
           name: mailchimp-marketing-php.zip
           path: swagger-out/marketing-php/mailchimp-marketing-php.zip
 
+  generate-ruby:
+    runs-on: ubuntu-latest
+    needs: [validate, setup-cache]
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Initialize Marketing Cache
+        id: init-cache-mc
+        uses: actions/cache@v1
+        with:
+          path: .cache
+          key: cache-dir
+
+      - name: Cache node_modules
+        uses: actions/cache@v1
+        env:
+          cache-name: cache-node-modules
+        with:
+          path: ~/.npm
+          key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-build-${{ env.cache-name }}-
+            ${{ runner.os }}-build-
+            ${{ runner.os }}-
+      - name: Generate → marketing-ruby
+        run: |
+          npm install
+          node utils/actions/updateLangConfig.js --api=marketing --lang=ruby --specVersion=${{ env.SPEC_VERSION }}
+          npm run generate:ruby:marketing
+        env:
+          SPEC_VERSION: ${{ needs.validate.outputs.version }}
+
+      - name: Zip build artifact → marketing-ruby
+        working-directory: swagger-out/marketing-ruby
+        run: zip -r mailchimp-marketing-ruby.zip .
+
+      - name: Upload build artifact → marketing-ruby
+        uses: actions/upload-artifact@v1
+        with:
+          name: mailchimp-marketing-ruby.zip
+          path: swagger-out/marketing-ruby/mailchimp-marketing-ruby.zip
+
   test-node:
     runs-on: ubuntu-latest
     needs: [generate-node]
@@ -226,9 +268,48 @@ jobs:
           MARKETING_ACCESS_TOKEN: ${{ secrets.MARKETING_ACCESS_TOKEN }}
           MARKETING_SERVER: ${{ secrets.MARKETING_SERVER }}
 
+  test-ruby:
+    runs-on: ubuntu-latest
+    needs: [generate-ruby]
+    steps:
+      - uses: actions/checkout@v2
+      - name: Initialize Marketing Cache
+        id: init-cache-mc
+        uses: actions/cache@v1
+        with:
+          path: .cache
+          key: cache-dir
+
+      - uses: actions/download-artifact@v1
+        with:
+          name: mailchimp-marketing-ruby.zip
+          path: zip
+
+      - name: Unzip build artifact
+        run: |
+          mkdir -p swagger-out/marketing-ruby
+          unzip zip/mailchimp-marketing-ruby.zip -d swagger-out/marketing-ruby
+
+      - name: Install marketing-javascript
+        working-directory: swagger-out/marketing-ruby
+        run: |
+          gem install rspec
+          gem build MailchimpMarketing.gemspec
+
+      - name: Run test suite
+        run: |
+          MARKETING_API_KEY=${{ secrets.MARKETING_API_KEY }} \
+          MARKETING_SERVER=${{ secrets.MARKETING_SERVER }} \
+          MARKETING_ACCESS_TOKEN=${{ secrets.MARKETING_ACCESS_TOKEN }} \
+          rspec tests/marketing-ruby/MarketingTest_spec.rb
+        env:
+          MARKETING_API_KEY: ${{ secrets.MARKETING_API_KEY }}
+          MARKETING_ACCESS_TOKEN: ${{ secrets.MARKETING_ACCESS_TOKEN }}
+          MARKETING_SERVER: ${{ secrets.MARKETING_SERVER }}
+
   complete-success:
     runs-on: ubuntu-latest
-    needs: [test-node, test-php]
+    needs: [test-node, test-php, test-ruby]
     steps:
       - name: 'The first step'
         run: echo "Successful Marketing Build!"
