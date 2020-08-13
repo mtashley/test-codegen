@@ -125,7 +125,8 @@ jobs:
 
       - name: Unzip build artifact
         run: |
-          unzip zip/mailchimp-marketing-node.zip -d test-marketing-node
+          mkdir -p swagger-out/marketing-javascript
+          unzip zip/mailchimp-marketing-node.zip -d swagger-out/marketing-javascript
 
       - name: Test via Jest → marketing-node
         run: |

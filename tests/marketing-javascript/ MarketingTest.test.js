@@ -16,7 +16,7 @@ describe('Authorization', () => {
   });
 
   it('can authorize using Basic Auth', async () => {
-    const client = require('../../swagger-out/marketing-node/src');
+    const client = require('../../swagger-out/marketing-javascript/src');
     client.setConfig({ apiKey, server });
 
     const resp = await client.ping.get();
@@ -24,7 +24,7 @@ describe('Authorization', () => {
   });
 
   it('can authorize using OAuth 2.0', async () => {
-    const client = require('../../swagger-out/marketing-node/src');
+    const client = require('../../swagger-out/marketing-javascript/src');
     client.setConfig({ accessToken, server });
 
     const resp = await client.ping.get();
