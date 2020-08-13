@@ -17,7 +17,7 @@ describe('Authorization', () => {
 
   it('can authorize using Basic Auth', async () => {
     const client = require('../../swagger-out/marketing-javascript/src');
-    client.setConfig({ apiKey: '123adacdfadfwfwecwecew', server });
+    client.setConfig({ apiKey, server });
 
     const resp = await client.ping.get();
     expect(resp.health_status).toBe("Everything's Chimpy!");
