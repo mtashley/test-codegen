@@ -208,9 +208,8 @@ jobs:
         with:
           command: install -d swagger-out/marketing-php/MailchimpMarketing
 
-      - name: Run test suite
+      - uses: php-actions/phpunit@v9
         run: |
-          composer require --dev phpunit/phpunit ^7
           MARKETING_API_KEY=${{ secrets.MARKETING_API_KEY }} \
           MARKETING_SERVER=${{ secrets.MARKETING_SERVER }} \
           MARKETING_ACCESS_TOKEN=${{ secrets.MARKETING_ACCESS_TOKEN }} \
