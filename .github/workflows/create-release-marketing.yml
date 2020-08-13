@@ -208,9 +208,11 @@ jobs:
         with:
           command: install -d swagger-out/marketing-php/MailchimpMarketing
 
-      - uses: php-actions/phpunit@v9
-        with:
-          bootstrap: swagger-out/marketing-php/MailchimpMarketing/vendor/autoload.php
+      - name: Install phpunit
+        run: |
+          wget -O phpunit https://phar.phpunit.de/phpunit-9.phar
+          chmod +x phpunit
+          ./phpunit --version
 
       - name: Run test suite
         run: |
