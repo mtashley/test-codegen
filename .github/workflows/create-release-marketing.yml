@@ -290,11 +290,17 @@ jobs:
           mkdir -p swagger-out/marketing-ruby
           unzip zip/mailchimp-marketing-ruby.zip -d swagger-out/marketing-ruby
 
-      - name: Install marketing-javascript
+      - name: Set up Ruby 2.6
+        uses: actions/setup-ruby@v1
+        with:
+          ruby-version: 2.6.5
+
+      - name: Install rspec
+        run: gem install rspec
+
+      - name: Install marketing-ruby
         working-directory: swagger-out/marketing-ruby
-        run: |
-          gem install rspec
-          gem build MailchimpMarketing.gemspec
+        run: gem build MailchimpMarketing.gemspec
 
       - name: Run test suite
         run: |
