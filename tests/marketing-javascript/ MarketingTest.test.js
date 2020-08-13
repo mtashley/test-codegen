@@ -4,8 +4,6 @@ const apiKey = process.env.MARKETING_API_KEY;
 const accessToken = process.env.MARKETING_ACCESS_TOKEN;
 const server = process.env.MARKETING_SERVER;
 
-const testPath = 'test-marketing-node/src';
-
 describe('Authorization', () => {
   beforeEach(() => {
     jest.resetModules();
@@ -18,7 +16,7 @@ describe('Authorization', () => {
   });
 
   it('can authorize using Basic Auth', async () => {
-    const client = require(testPath);
+    const client = require('../../swagger-out/marketing-javascript/src');
     client.setConfig({ apiKey, server });
 
     const resp = await client.ping.get();
@@ -26,7 +24,7 @@ describe('Authorization', () => {
   });
 
   it('can authorize using OAuth 2.0', async () => {
-    const client = require(testPath);
+    const client = require('../../swagger-out/marketing-javascript/src');
     client.setConfig({ accessToken, server });
 
     const resp = await client.ping.get();
