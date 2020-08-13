@@ -202,11 +202,11 @@ jobs:
       - name: Unzip build artifact
         run: |
           mkdir -p swagger-out/marketing-php
-          unzip zip/mailchimp-marketing-php.zip -d marketing-php
+          unzip zip/mailchimp-marketing-php.zip -d swagger-out/marketing-php
 
       - uses: php-actions/composer@v2
       - name: Install marketing-php
-        working-directory: swagger-out/marketing-php/MailchimpMarketing
+        working-directory: swagger-out/marketing-php
         run: composer install
 
       - uses: php-actions/phpunit@v9
