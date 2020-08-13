@@ -244,17 +244,17 @@ jobs:
           registry-url: 'https://registry.npmjs.org'
           scope: '@mailchimp'
 
-      - name: Prepare Build & Publishing Tools
-        run: npm install
+      # - name: Prepare Build & Publishing Tools
+      #   run: npm install
 
-      - uses: actions/download-artifact@v1
-        with:
-          name: mailchimp-marketing-node.zip
-          path: zip
+      # - uses: actions/download-artifact@v1
+      #   with:
+      #     name: mailchimp-marketing-node.zip
+      #     path: zip
 
-      - name: Unzip build artifact
-        run: |
-          unzip zip/mailchimp-marketing-node.zip -d marketing-node
+      # - name: Unzip build artifact
+      #   run: |
+      #     unzip zip/mailchimp-marketing-node.zip -d marketing-node
 
       - name: Test via Jest → marketing-node
         run: |
