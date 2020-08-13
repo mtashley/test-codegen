@@ -203,14 +203,11 @@ jobs:
         run: |
           mkdir -p swagger-out/marketing-php
           unzip zip/mailchimp-marketing-php.zip -d swagger-out/marketing-php
-          cd swagger-out/marketing-php
 
       - uses: php-actions/composer@v2
-      - name: Install marketing-php
-        working-directory: swagger-out/marketing-php
-        run: |
-          ls -la
-          composer install
+          with:
+            command: install
+          path: swagger-out/marketing-php/MailchimpMarketing
 
       - uses: php-actions/phpunit@v9
       - name: Run test suite
