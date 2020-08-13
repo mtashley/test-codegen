@@ -209,8 +209,8 @@ jobs:
           command: install -d swagger-out/marketing-php/MailchimpMarketing
 
       - uses: php-actions/phpunit@v9
-          with:
-            bootstrap: swagger-out/marketing-php/MailchimpMarketing/vendor/autoload.php
+        with:
+          bootstrap: swagger-out/marketing-php/MailchimpMarketing/vendor/autoload.php
 
       - name: Run test suite
         run: |
