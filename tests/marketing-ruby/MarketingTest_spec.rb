@@ -1,4 +1,4 @@
-require File.dirname('../../swagger-out/marketing-ruby/lib/MailchimpMarketing.rb')
+require File.dirname('./swagger-out/marketing-ruby/lib/MailchimpMarketing.rb')
 
 MARKETING_API_KEY = ENV['MARKETING_API_KEY']
 MARKETING_ACCESS_TOKEN = ENV['MARKETING_ACCESS_TOKEN']
