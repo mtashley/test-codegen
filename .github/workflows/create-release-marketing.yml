@@ -206,7 +206,6 @@ jobs:
 
       - uses: php-actions/composer@v2
       - name: Install marketing-php
-        working-directory: swagger-out/marketing-php
         run: |
           ls -la
           cd swagger-out/marketing-php
