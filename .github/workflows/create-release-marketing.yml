@@ -128,10 +128,12 @@ jobs:
           mkdir -p swagger-out/marketing-javascript
           unzip zip/mailchimp-marketing-node.zip -d swagger-out/marketing-javascript
 
-      - name: Test via Jest → marketing-node
-        run: |
-          ls -la
-          npm run test -- MarketingTest.test.js
+      - name: Install marketing-javascript
+        working-directory: swagger-out/marketing-javascript
+        run: npm install
+
+      - name: Run test suite (Jest)
+        run: npm run test -- MarketingTest.test.js
         env:
           MARKETING_API_KEY: ${{ secrets.MARKETING_API_KEY }}
           MARKETING_ACCESS_TOKEN: ${{ secrets.MARKETING_ACCESS_TOKEN }}
