@@ -1,4 +1,4 @@
-require File.dirname('swagger-out/transactional-ruby/lib/MailchimpTransactional.rb')
+require_relative '../../swagger-out/transactional-ruby/lib/MailchimpTransactional.rb'
 
 TRANSACTIONAL_API_KEY = ENV['TRANSACTIONAL_API_KEY']
 
