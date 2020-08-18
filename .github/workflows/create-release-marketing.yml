@@ -301,8 +301,8 @@ jobs:
       - name: Install marketing-ruby
         working-directory: swagger-out/marketing-ruby
         run: |
-          gem build MailchimpMarketing.gemspec
-          gem install ./MailchimpMarketing-1.0.0.gem
+          gem build MailchimpMarketing.gemspec --output=MailchimpMarketingTest.gem
+          gem install ./MailchimpMarketingTest.gem
           gem 'MailchimpMarketing', '~> 1.0.0'
 
       - name: Run test suite
