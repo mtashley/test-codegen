@@ -307,7 +307,6 @@ jobs:
       - name: Run test suite
         run: |
           cd tests/marketing-ruby
-          ls -la
           MARKETING_API_KEY=${{ secrets.MARKETING_API_KEY }} \
           MARKETING_SERVER=${{ secrets.MARKETING_SERVER }} \
           MARKETING_ACCESS_TOKEN=${{ secrets.MARKETING_ACCESS_TOKEN }} \
@@ -317,9 +316,52 @@ jobs:
           MARKETING_ACCESS_TOKEN: ${{ secrets.MARKETING_ACCESS_TOKEN }}
           MARKETING_SERVER: ${{ secrets.MARKETING_SERVER }}
 
+  test-python:
+    runs-on: ubuntu-latest
+    needs: [generate-python]
+    steps:
+      - uses: actions/checkout@v2
+      - name: Initialize Marketing Cache
+        id: init-cache-mc
+        uses: actions/cache@v1
+        with:
+          path: .cache
+          key: cache-dir
+
+      - name: Install Python 3.7
+        uses: actions/setup-python@v1
+        with:
+          python-version: 3.7
+
+      - uses: actions/download-artifact@v1
+        with:
+          name: mailchimp-marketing-python.zip
+          path: zip
+
+      - name: Unzip build artifact
+        run: |
+          mkdir -p swagger-out/marketing-python
+          unzip zip/mailchimp-marketing-python.zip -d swagger-out/marketing-python
+
+      - name: Install marketing-python
+        working-directory: swagger-out/marketing-python
+        run: python3 setup.py install --user
+
+      - name: Run test suite
+        run: |
+          cd tests/marketing-python
+          MARKETING_API_KEY=${{ secrets.MARKETING_API_KEY }} \
+          MARKETING_SERVER=${{ secrets.MARKETING_SERVER }} \
+          MARKETING_ACCESS_TOKEN=${{ secrets.MARKETING_ACCESS_TOKEN }} \
+          python3 MarketingTest.py
+        env:
+          MARKETING_API_KEY: ${{ secrets.MARKETING_API_KEY }}
+          MARKETING_ACCESS_TOKEN: ${{ secrets.MARKETING_ACCESS_TOKEN }}
+          MARKETING_SERVER: ${{ secrets.MARKETING_SERVER }}
+
   complete-success:
     runs-on: ubuntu-latest
-    needs: [test-node, test-php, test-ruby]
+    needs: [test-node, test-php, test-ruby, test-python]
     steps:
       - name: 'The first step'
         run: echo "Successful Marketing Build!"
