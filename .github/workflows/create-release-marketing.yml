@@ -189,6 +189,48 @@ jobs:
           name: mailchimp-marketing-ruby.zip
           path: swagger-out/marketing-ruby/mailchimp-marketing-ruby.zip
 
+  generate-python:
+    runs-on: ubuntu-latest
+    needs: [validate, setup-cache]
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Initialize Marketing Cache
+        id: init-cache-mc
+        uses: actions/cache@v1
+        with:
+          path: .cache
+          key: cache-dir
+
+      - name: Cache node_modules
+        uses: actions/cache@v1
+        env:
+          cache-name: cache-node-modules
+        with:
+          path: ~/.npm
+          key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-build-${{ env.cache-name }}-
+            ${{ runner.os }}-build-
+            ${{ runner.os }}-
+      - name: Generate → marketing-python
+        run: |
+          npm install
+          node utils/actions/updateLangConfig.js --api=marketing --lang=python --specVersion=${{ env.SPEC_VERSION }}
+          npm run generate:python:marketing
+        env:
+          SPEC_VERSION: ${{ needs.validate.outputs.version }}
+
+      - name: Zip build artifact → marketing-python
+        working-directory: swagger-out/marketing-python
+        run: zip -r mailchimp-marketing-python.zip .
+
+      - name: Upload build artifact → marketing-python
+        uses: actions/upload-artifact@v1
+        with:
+          name: mailchimp-marketing-python.zip
+          path: swagger-out/marketing-python/mailchimp-marketing-python.zip
+
   test-node:
     runs-on: ubuntu-latest
     needs: [generate-node]
