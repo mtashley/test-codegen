@@ -302,7 +302,7 @@ jobs:
         working-directory: tests/transactional-php
         run: |
           TRANSACTIONAL_API_KEY=${{ secrets.TRANSACTIONAL_API_KEY }} \
-          phpunit TransactionalTest.php
+          phpunit MailchimpTransactional.php
         env:
           TRANSACTIONAL_API_KEY: ${{ secrets.TRANSACTIONAL_API_KEY }}
 
