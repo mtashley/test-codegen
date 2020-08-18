@@ -255,7 +255,7 @@ jobs:
           mkdir -p swagger-out/marketing-javascript
           unzip zip/mailchimp-marketing-node.zip -d swagger-out/marketing-javascript
 
-      - name: Install marketing-javascript
+      - name: Install client
         working-directory: swagger-out/marketing-javascript
         run: npm install
 
@@ -292,7 +292,7 @@ jobs:
         with:
           command: install -d swagger-out/marketing-php/MailchimpMarketing
 
-      - name: Install phpunit
+      - name: Install client dependencies
         run: |
           wget -O phpunit https://phar.phpunit.de/phpunit-9.phar
           chmod +x phpunit
@@ -337,10 +337,10 @@ jobs:
         with:
           ruby-version: '2.6'
 
-      - name: Install rspec
+      - name: Install client dependencies
         run: gem install rspec
 
-      - name: Install marketing-ruby
+      - name: Install client
         working-directory: swagger-out/marketing-ruby
         run: |
           gem build MailchimpMarketing.gemspec --output=MailchimpMarketing-test.gem
@@ -385,7 +385,10 @@ jobs:
           mkdir -p swagger-out/marketing-python
           unzip zip/mailchimp-marketing-python.zip -d swagger-out/marketing-python
 
-      - name: Install marketing-python
+      - name: Install client dependencies
+        run: pip install -U python-dotenv
+
+      - name: Install client
         working-directory: swagger-out/marketing-python
         run: python3 setup.py install --user
 
